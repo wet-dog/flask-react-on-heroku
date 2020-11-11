@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import React, { useState, useEffect } from 'react';
 import logo from './logo.svg';
 import './App.css';
 import handleClick from './utils/restClient';
@@ -11,6 +12,14 @@ class App extends Component {
     this.handleClick = handleClick.bind(this);
   }
 
+  const [currentTime, setCurrentTime] = useState(0);
+
+  useEffect(() => {
+    fetch('/time').then(res => res.json()).then(data => {
+      setCurrentTime(data.time);
+    });
+  }, []);
+
   render() {
     return (
       <div className="App">
@@ -21,13 +30,7 @@ class App extends Component {
         <p className="App-intro">
           To get started, edit <code>src/App.js</code> and save to reload.
         </p>
-        <button
-          onClick={() =>
-            this.handleClick('Hello World!')
-          }
-        >
-        Click Me !
-        </button>
+        <p>The current time is {currentTime}.</p>
       </div>
     );
   }
